@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block page_title %}Attendance{% endblock %}
+{% block content %}
+{% if can_create %}<section class="panel form-panel"><h2>Mark Attendance</h2><form method="post">{% csrf_token %}{{ form.as_p }}<button class="primary">Save Attendance</button></form></section>{% endif %}
+<section class="panel"><h2>Attendance Records</h2><table><tr><th>Date</th><th>Student</th><th>Status</th><th>Marked By</th>{% if can_create %}<th>Actions</th>{% endif %}</tr>
+{% for item in attendance %}<tr><td>{{ item.date }}</td><td>{{ item.student }}</td><td>{{ item.status }}</td><td>{{ item.marked_by|default:"-" }}</td>{% if can_create %}<td class="actions"><a class="button compact" href="{% url 'attendance_edit' item.pk %}">Edit</a><a class="button compact danger-link" href="{% url 'attendance_delete' item.pk %}">Delete</a></td>{% endif %}</tr>{% empty %}<tr><td colspan="{% if can_create %}5{% else %}4{% endif %}">No attendance found.</td></tr>{% endfor %}
+</table></section>
+{% endblock %}

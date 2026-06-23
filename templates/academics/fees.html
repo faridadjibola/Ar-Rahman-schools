@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block page_title %}Fees{% endblock %}
+{% block content %}
+{% if can_create %}<section class="panel form-panel"><h2>Add Fee Record</h2><form method="post">{% csrf_token %}{{ form.as_p }}<button class="primary">Save Fee</button></form></section>{% endif %}
+<section class="panel"><h2>Fee Records</h2><table><tr><th>Student</th><th>Term</th><th>Due</th><th>Paid</th><th>Balance</th><th>Status</th>{% if can_create %}<th>Actions</th>{% endif %}</tr>
+{% for fee in fees %}<tr><td>{{ fee.student }}</td><td>{{ fee.term }}</td><td>{{ fee.amount_due }}</td><td>{{ fee.amount_paid }}</td><td>{{ fee.balance }}</td><td>{{ fee.status }}</td>{% if can_create %}<td class="actions"><a class="button compact" href="{% url 'fee_edit' fee.pk %}">Edit</a><a class="button compact danger-link" href="{% url 'fee_delete' fee.pk %}">Delete</a></td>{% endif %}</tr>{% empty %}<tr><td colspan="{% if can_create %}7{% else %}6{% endif %}">No fees found.</td></tr>{% endfor %}
+</table></section>
+{% endblock %}

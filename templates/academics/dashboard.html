@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block page_title %}Dashboard{% endblock %}
+{% block content %}
+<section class="metrics">
+  <article><span>Students</span><strong>{{ student_count }}</strong></article>
+  <article><span>Classes</span><strong>{{ class_count }}</strong></article>
+  <article><span>Pending Fees</span><strong>{{ pending_fees }}</strong></article>
+  <article><span>Your Role</span><strong>{{ role }}</strong></article>
+</section>
+<section class="grid-two">
+  <div class="panel">
+    <h2>Recent Results</h2>
+    <table><tr><th>Student</th><th>Subject</th><th>Score</th><th>Grade</th></tr>
+      {% for result in recent_results %}<tr><td>{{ result.student }}</td><td>{{ result.subject.name }}</td><td>{{ result.score }}</td><td>{{ result.letter_grade }}</td></tr>{% empty %}<tr><td colspan="4">No results yet.</td></tr>{% endfor %}
+    </table>
+  </div>
+  <div class="panel">
+    <h2>Recent Attendance</h2>
+    <table><tr><th>Date</th><th>Student</th><th>Status</th></tr>
+      {% for item in recent_attendance %}<tr><td>{{ item.date }}</td><td>{{ item.student }}</td><td>{{ item.status }}</td></tr>{% empty %}<tr><td colspan="3">No attendance yet.</td></tr>{% endfor %}
+    </table>
+  </div>
+</section>
+{% endblock %}

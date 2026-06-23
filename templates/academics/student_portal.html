@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block page_title %}My Student Portal{% endblock %}
+{% block content %}
+<section class="profile-band">
+  <div>
+    <h1>Ar-Rahman Schools</h1>
+    <p>{{ student.user.get_full_name|default:student.user.username }} - {{ student.admission_no }} - {{ student.school_class }}</p>
+  </div>
+</section>
+
+<section class="metrics">
+  <article><span>Passed Results</span><strong>{{ passed }}</strong></article>
+  <article><span>Failed Results</span><strong>{{ failed }}</strong></article>
+  <article><span>Present Days</span><strong>{{ present_count }}</strong></article>
+  <article><span>Absent Days</span><strong>{{ absent_count }}</strong></article>
+</section>
+
+<section class="grid-two">
+  <div class="panel">
+    <h2>My Results</h2>
+    <table><tr><th>Subject</th><th>Term</th><th>Score</th><th>Grade</th><th>Remarks</th></tr>
+      {% for result in results %}<tr><td>{{ result.subject.name }}</td><td>{{ result.term }}</td><td>{{ result.score }}</td><td>{{ result.letter_grade }}</td><td>{{ result.remarks }}</td></tr>{% empty %}<tr><td colspan="5">No results have been posted yet.</td></tr>{% endfor %}
+    </table>
+  </div>
+  <div class="panel">
+    <h2>My Fees</h2>
+    <table><tr><th>Term</th><th>Due</th><th>Paid</th><th>Balance</th><th>Status</th></tr>
+      {% for fee in fees %}<tr><td>{{ fee.term }}</td><td>{{ fee.amount_due }}</td><td>{{ fee.amount_paid }}</td><td>{{ fee.balance }}</td><td>{{ fee.status }}</td></tr>{% empty %}<tr><td colspan="5">No fee records have been posted yet.</td></tr>{% endfor %}
+    </table>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>Recent Attendance</h2>
+  <table><tr><th>Date</th><th>Status</th><th>Marked By</th></tr>
+    {% for item in attendance %}<tr><td>{{ item.date }}</td><td>{{ item.status }}</td><td>{{ item.marked_by|default:"-" }}</td></tr>{% empty %}<tr><td colspan="3">No attendance records have been posted yet.</td></tr>{% endfor %}
+  </table>
+</section>
+{% endblock %}

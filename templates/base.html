@@ -1,0 +1,39 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ar-Rahman Schools Portal</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">Ar-Rahman Schools</div>
+    <nav>
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+      {% if user.is_student_role %}<a href="{% url 'student_portal' %}">My Portal</a>{% endif %}
+      <a href="{% url 'students' %}">Students</a>
+      <a href="{% url 'attendance' %}">Attendance</a>
+      <a href="{% url 'results' %}">Results</a>
+      <a href="{% url 'fees' %}">Fees</a>
+      <a href="{% url 'reports' %}">Reports</a>
+      {% if user.is_admin_role %}<a href="/admin/">Admin</a>{% endif %}
+    </nav>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <strong>{% block page_title %}Dashboard{% endblock %}</strong>
+        {% if user.is_authenticated %}<span>{{ user.get_full_name|default:user.username }} - {{ user.get_role_display }}</span>{% endif %}
+      </div>
+      {% if user.is_authenticated %}
+        <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button>Logout</button></form>
+      {% endif %}
+    </header>
+    {% for message in messages %}<div class="notice">{{ message }}</div>{% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+  <script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block page_title %}{{ title }}{% endblock %}
+{% block content %}
+<section class="panel form-panel">
+  <h2>{{ title }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="form-actions">
+      <button class="primary">Save Changes</button>
+      <a class="button secondary" href="{% url back_url %}">Cancel</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

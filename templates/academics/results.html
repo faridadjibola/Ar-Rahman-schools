@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block page_title %}Results{% endblock %}
+{% block content %}
+{% if can_create %}<section class="panel form-panel"><h2>Add Result</h2><form method="post">{% csrf_token %}{{ form.as_p }}<button class="primary">Save Result</button></form></section>{% endif %}
+{% if can_create %}
+<section class="panel bulk-panel">
+  <div>
+    <h2>Bulk Results</h2>
+    <p>Upload a CSV with admission_no, subject_code, term, score, and remarks. Existing rows with the same student, subject, and term will be updated.</p>
+  </div>
+  <div class="bulk-actions">
+    <a class="button secondary" href="{% url 'results_template' %}">Download Template</a>
+    <a class="button secondary" href="{% url 'results_export' %}">Download Results</a>
+    <form method="post" action="{% url 'results_import' %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="file" name="results_file" accept=".csv,text/csv" required>
+      <button class="primary">Upload CSV</button>
+    </form>
+  </div>
+</section>
+{% endif %}
+<section class="panel"><h2>Results and Grades</h2><table><tr><th>Student</th><th>Subject</th><th>Term</th><th>Score</th><th>Grade</th><th>Remarks</th>{% if can_create %}<th>Actions</th>{% endif %}</tr>
+{% for result in results %}<tr><td>{{ result.student }}</td><td>{{ result.subject.name }}</td><td>{{ result.term }}</td><td>{{ result.score }}</td><td>{{ result.letter_grade }}</td><td>{{ result.remarks }}</td>{% if can_create %}<td class="actions"><a class="button compact" href="{% url 'result_edit' result.pk %}">Edit</a><a class="button compact danger-link" href="{% url 'result_delete' result.pk %}">Delete</a></td>{% endif %}</tr>{% empty %}<tr><td colspan="{% if can_create %}7{% else %}6{% endif %}">No results found.</td></tr>{% endfor %}
+</table></section>
+{% endblock %}

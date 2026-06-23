@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block page_title %}Reports{% endblock %}
+{% block content %}
+<section class="metrics">
+  <article><span>Fee Due</span><strong>{{ fee_summary.due|default:0 }}</strong></article>
+  <article><span>Fee Paid</span><strong>{{ fee_summary.paid|default:0 }}</strong></article>
+  <article><span>Passed Results</span><strong>{{ grade_summary.passed|default:0 }}</strong></article>
+  <article><span>Failed Results</span><strong>{{ grade_summary.failed|default:0 }}</strong></article>
+</section>
+<section class="panel">
+  <h2>Attendance Summary</h2>
+  <table><tr><th>Status</th><th>Total</th></tr>
+  {% for row in attendance_summary %}<tr><td>{{ row.status }}</td><td>{{ row.total }}</td></tr>{% empty %}<tr><td colspan="2">No attendance data.</td></tr>{% endfor %}
+  </table>
+</section>
+{% endblock %}

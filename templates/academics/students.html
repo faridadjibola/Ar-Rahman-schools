@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block page_title %}Students{% endblock %}
+{% block content %}
+{% if can_create %}<section class="panel form-panel"><h2>Add Student</h2><form method="post">{% csrf_token %}{{ form.as_p }}<button class="primary">Save Student</button></form></section>{% endif %}
+<section class="panel"><h2>Student Records</h2><table><tr><th>Admission</th><th>Name</th><th>Class</th><th>Guardian</th><th>Phone</th>{% if can_create %}<th>Actions</th>{% endif %}</tr>
+{% for student in students %}<tr><td>{{ student.admission_no }}</td><td>{{ student.user.get_full_name|default:student.user.username }}</td><td>{{ student.school_class }}</td><td>{{ student.guardian_name }}</td><td>{{ student.guardian_phone }}</td>{% if can_create %}<td class="actions"><a class="button compact" href="{% url 'student_edit' student.pk %}">Edit</a><a class="button compact danger-link" href="{% url 'student_delete' student.pk %}">Delete</a></td>{% endif %}</tr>{% empty %}<tr><td colspan="{% if can_create %}6{% else %}5{% endif %}">No students found.</td></tr>{% endfor %}
+</table></section>
+{% endblock %}

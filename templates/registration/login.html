@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login - Ar-Rahman Schools</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body class="login-screen">
+  <section class="login-panel">
+    <h1>Ar-Rahman Schools</h1>
+    <p class="auth-copy">Login to manage or view student records, attendance, results, fees, and reports.</p>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="primary">Login</button>
+    </form>
+    <p class="auth-link">New student? <a href="{% url 'student_signup' %}">Create your student account</a></p>
+  </section>
+</body>
+</html>

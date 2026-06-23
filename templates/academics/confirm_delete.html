@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block page_title %}{{ title }}{% endblock %}
+{% block content %}
+<section class="panel confirm-panel">
+  <h2>{{ title }}</h2>
+  <p>Are you sure you want to delete <strong>{{ object }}</strong>?</p>
+  <form method="post" class="inline-actions">
+    {% csrf_token %}
+    <button class="danger">Delete</button>
+    <a class="button secondary" href="{% url back_url %}">Cancel</a>
+  </form>
+</section>
+{% endblock %}
